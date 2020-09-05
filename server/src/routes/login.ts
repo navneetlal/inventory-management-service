@@ -1,15 +1,13 @@
 import express from 'express';
 import verifyPassword from '../authentication/verifyPassword';
-import hashPassword from '../authentication/hashPassword';
 import { generateToken } from '../authentication/token';
 
 const router = express.Router();
 
 router.post('/login', async (req, res) => {
   const user = req.body;
-  const hashedPassword = await hashPassword(user.password)
-  const auth = verifyPassword(hashedPassword, user)
-  if(!auth) res.send(403)
+  const auth = await verifyPassword(user)
+  if(!auth) res.status(403).send({ message: "username or password doesn't match" })
   else {
     const claims = {
       iss: "Navneet",

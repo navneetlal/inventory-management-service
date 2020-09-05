@@ -9,7 +9,7 @@ export function generateToken(claims: any) {
 }
 
 export function verifyToken(token: string) {
-  var publicKey = fs.readFileSync(path.resolve(__dirname, 'private.key'));
+  var publicKey = fs.readFileSync(path.resolve(__dirname, 'primary.key'));
   jwt.verify(token, publicKey, function (err, decoded: any) {
     if(err) throw err
     console.log(decoded.foo)

@@ -7,13 +7,13 @@ export interface IHashedPassword {
   salt: string
 }
 
-export default function hashPassword(value: string): Promise<IHashedPassword> {
+export default function hashPassword(value: string, savedSalt?: string): Promise<IHashedPassword> {
   return new Promise((resolve, reject) => {
     bcrypt.genSalt(saltRounds, function (err, salt) {
       if (err) reject(err);
-      bcrypt.hash(value, salt, function (err, hash) {
+      bcrypt.hash(value, savedSalt ? savedSalt : salt, function (err, hash) {
         if (err) reject(err);
-        resolve({ hash, salt })
+        resolve({ hash, salt: savedSalt ? savedSalt : salt })
       });
     });
   })

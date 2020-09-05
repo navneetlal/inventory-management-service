@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable, throwError } from 'rxjs';
+import { Observable, throwError, BehaviorSubject } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { retry, catchError } from 'rxjs/operators';
 
@@ -9,6 +9,7 @@ import { retry, catchError } from 'rxjs/operators';
 export class LoginService {
 
   baseurl = 'http://localhost:3000/api';
+  isLoggedIn = new BehaviorSubject(false);
 
   constructor(private http: HttpClient) { }
 
@@ -20,6 +21,11 @@ export class LoginService {
     })
   }
 
+  getLoginStatus() {
+    if(!this.isLoggedIn) this.checkLoginStatus()
+    return this.isLoggedIn.asObservable()
+  }
+
   login(data): Observable<any> {
     console.log(data)
     return this.http.post<any>(this.baseurl + '/login/', JSON.stringify(data), this.httpOptions)
@@ -28,6 +34,13 @@ export class LoginService {
         catchError(this.errorHandle)
       )
   }
+
+  checkLoginStatus(){
+    const token = localStorage.getItem('token')
+    this.http.post<any>(this.baseurl + '/token/verify', token, this.httpOptions)
+      .subscribe(res => res ? this.isLoggedIn.next(true) : this.isLoggedIn.next(false) )
+  }
+
   errorHandle(error) {
     let errorMessage = '';
     if (error.error instanceof ErrorEvent) {

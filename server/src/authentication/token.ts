@@ -8,10 +8,12 @@ export function generateToken(claims: any) {
   return token;
 }
 
-export function verifyToken(token: string) {
-  var publicKey = fs.readFileSync(path.resolve(__dirname, 'primary.key'));
-  jwt.verify(token, publicKey, function (err, decoded: any) {
-    if (err) throw err
-    console.log(decoded.foo)
-  });
+export function verifyToken(token: string): Promise<boolean> {
+  return new Promise((resolve, reject) => {
+    var publicKey = fs.readFileSync(path.resolve(__dirname, 'primary.key'));
+    jwt.verify(token, publicKey, function (err, decoded: any) {
+      if (err) resolve(false)
+      resolve(true)
+    });
+  })
 }

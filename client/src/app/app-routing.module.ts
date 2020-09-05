@@ -8,7 +8,7 @@ const routes: Routes = [
   { path: "login", component: LoginComponent },
   { path: "product", component: ProductComponent },
   { path: 'product/:id', component: ProductDetailComponent },
-  { path: '**', component: LoginComponent },
+  { path: '**', redirectTo: 'login' },
 ];
 
 @NgModule({

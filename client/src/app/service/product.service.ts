@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable, throwError } from 'rxjs';
+import { Observable, throwError, BehaviorSubject } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { retry, catchError } from 'rxjs/operators';
 
@@ -9,6 +9,8 @@ import { retry, catchError } from 'rxjs/operators';
 export class ProductService {
 
   baseurl = 'http://localhost:3000/api';
+  products = new BehaviorSubject([]);
+  productList: any[];
 
   constructor(private http: HttpClient) { }
 
@@ -18,6 +20,13 @@ export class ProductService {
       'Access-Control-Allow-Methods': '*',
       'Access-Control-Allow-Origin': '*'
     })
+  }
+
+  getProducts() {
+    if (!this.productList || this.productList.length === 0) {
+        this.getAllProduct();
+    }
+    return this.products.asObservable();
   }
 
   createProduct(product):Observable<any> {

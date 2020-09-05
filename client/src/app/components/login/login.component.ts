@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
+import { Router } from '@angular/router';
 
 import { LoginService } from '../../service/login.service';
 
@@ -19,7 +20,8 @@ export class LoginComponent implements OnInit {
   });
 
   constructor(
-    public loginService: LoginService
+    public loginService: LoginService,
+    private router: Router
   ){ }
 
   onSubmit() {
@@ -27,6 +29,7 @@ export class LoginComponent implements OnInit {
     this.loginService.login(this.userForm.value).subscribe(res => {
       this.token = res.token;
       localStorage.setItem('token', this.token);
+      this.router.navigate(['/product'])
     });
   }
 

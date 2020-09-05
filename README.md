@@ -114,6 +114,7 @@ $ CREATE TABLE Products (productId varchar(255), productName varchar(255), produ
 ```
 
 ## Steps to start server and client
+To start server first you will require a private and public key combination. Place that file in `server/src/authentication/`
 ```bash
 $ cd server
 $ npm run start
@@ -123,3 +124,14 @@ $ npm run start
 $ cd client
 $ npm run start
 ```
+
+## Implementation Include
+- [x] Login Page
+- [x] Create New Product (Only API is available)
+- [x] List Products
+- [x] Product Detail Page
+
+## TODO
+- [ ] Protected Routes (backend + frontend)
+- [ ] UI to create new product
+- [ ] Delete Product

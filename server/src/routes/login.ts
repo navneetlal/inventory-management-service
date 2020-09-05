@@ -6,8 +6,9 @@ const router = express.Router();
 
 router.post('/login', async (req, res) => {
   const user = req.body;
+  console.log('body', req.body)
   const auth = await verifyPassword(user)
-  if(!auth) res.status(403).send({ message: "username or password doesn't match" })
+  if (!auth) res.status(403).send({ message: "username or password doesn't match" })
   else {
     const claims = {
       iss: "Navneet",

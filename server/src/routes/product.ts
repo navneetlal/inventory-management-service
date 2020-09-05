@@ -8,7 +8,7 @@ router.get('/product', (req, res) => {
   mysqlConnection.query(
     "SELECT * FROM Products",
     (err, result) => {
-      if(err) res.status(500).send({ message: 'No product found' })
+      if (err) res.status(500).send({ message: 'No product found' })
       else res.status(200).send({ ...result })
     }
   )
@@ -20,7 +20,7 @@ router.post('/product', (req, res) => {
     "INSERT INTO Products VALUES (?,?,?,?)",
     [product.productId, product.productName, product.productDescription, product.productPrice],
     (err, result) => {
-      if(err) res.status(500).send({ message: err.message })
+      if (err) res.status(500).send({ message: err.message })
       else res.status(201).send({ ...product })
     }
   )
@@ -31,7 +31,7 @@ router.get('/product/:id', (req, res) => {
   mysqlConnection.query(
     "SELECT * FROM Products WHERE productId=?", id,
     (err, result) => {
-      if(err) res.status(500).send({ message: 'No product found' })
+      if (err) res.status(500).send({ message: 'No product found' })
       else res.status(200).send({ ...result })
     }
   )

@@ -1,1 +1,21 @@
-<p>product works!</p>
+<h2>Products:</h2>
+<table>
+  <thead>
+    <tr>
+      <td>productId</td>
+      <td>productName</td>
+      <td>productPrice</td>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let product of products">
+      <td>{{product.productId}}</td>
+      <td>
+        <a [routerLink] = "['/product', product.productId]">   
+          {{product.productName}}
+          </a>
+      </td>
+      <td>{{product.productPrice}}</td>
+    </tr>
+  </tbody>
+</table>

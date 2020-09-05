@@ -6,7 +6,7 @@ import { retry, catchError } from 'rxjs/operators';
 @Injectable({
   providedIn: 'root'
 })
-export class LoginService {
+export class ProductService {
 
   baseurl = 'http://localhost:3000/api';
 
@@ -20,14 +20,30 @@ export class LoginService {
     })
   }
 
-  login(data): Observable<any> {
-    console.log(data)
-    return this.http.post<any>(this.baseurl + '/login/', JSON.stringify(data), this.httpOptions)
+  createProduct(product):Observable<any> {
+    return this.http.post(this.baseurl + '/product', JSON.stringify(product), this.httpOptions)
       .pipe(
         retry(1),
         catchError(this.errorHandle)
       )
   }
+
+  getAllProduct():Observable<any> {
+    return this.http.get(this.baseurl + '/product', this.httpOptions)
+      .pipe(
+        retry(1),
+        catchError(this.errorHandle)
+      )
+  }
+
+  getProductById(id: string):Observable<any> {
+    return this.http.get(this.baseurl + '/product/' + id, this.httpOptions)
+      .pipe(
+        retry(1),
+        catchError(this.errorHandle)
+      )
+  }
+
   errorHandle(error) {
     let errorMessage = '';
     if (error.error instanceof ErrorEvent) {
@@ -38,5 +54,4 @@ export class LoginService {
     console.log(errorMessage);
     return throwError(errorMessage);
   }
-
 }
